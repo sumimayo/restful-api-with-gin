@@ -26,3 +26,9 @@ $ curl http://localhost:8080/albums \
     --request "POST" \
     --data '{"id": "5","title": "The Modern Sound of Betty Carter","artist": "Betty Carter","price": 49.99}'
 ```
+
+## Future version
+- [ ] Authentication
+- [ ] List book reviews
+- [ ] Review of book read
+- [ ] Comments
