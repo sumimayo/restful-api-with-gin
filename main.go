@@ -3,6 +3,9 @@ package main
 import (
 	"net/http"
 	"github.com/gin-gonic/gin"
+	"example/web-service-gin/bookshelf/controllers"
+	"reflect"
+    "strconv"
 )
 
 type album struct {
@@ -20,11 +23,33 @@ var albums = []album{
 
 func main () {
 	router :=gin.Default()
+	router.GET("/:id", getUser)
 	router.GET("/albums", getAlbum)
 	router.GET("/albums/:id", getAlbumByID)
 	router.POST("/albums", postAlbum)
 
 	router.Run("localhost:8080")
+}
+
+func getUser (c *gin.Context) {
+	n := c.Param("id")
+	id, err := strconv.Atoi(n)
+	if err != nil {
+		c.JSON(400, err)
+		return
+	}
+	if id <= 0 {
+		c.JSON(400, gin.H{"status": "is should be bigger than 0"})
+		return
+	}
+
+	ctrl := controllers.NewUser()
+	result := ctrl.Get(id)
+	if reflect.ValueOf(result).IsNil() {
+		c.JSON(400, gin.H{})
+		return
+	}
+	c.JSON(200, result)
 }
 
 func getAlbum (c *gin.Context){
