@@ -6,6 +6,7 @@ import (
 	"example/web-service-gin/bookshelf/controllers"
 	"reflect"
     "strconv"
+	"fmt"
 )
 
 type album struct {
@@ -42,9 +43,10 @@ func getUser (c *gin.Context) {
 		c.JSON(400, gin.H{"status": "is should be bigger than 0"})
 		return
 	}
-
 	ctrl := controllers.NewUser()
+	fmt.Printf("---ctrl: %v\n---", ctrl)
 	result := ctrl.Get(id)
+	fmt.Printf("---result : %v\n----", result)
 	if reflect.ValueOf(result).IsNil() {
 		c.JSON(400, gin.H{})
 		return
